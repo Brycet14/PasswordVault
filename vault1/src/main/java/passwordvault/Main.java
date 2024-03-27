@@ -6,18 +6,18 @@ import java.util.Scanner;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import javax.mail.*;
-import javax.mail.internet.*;
+// import javax.mail.*;
+// import javax.mail.internet.*;
 
 public class Main {
     public static void main(String[] args) {
         String email;
         String sEmail;
         String sPswrd;
-        String cUPswrd = "";
-        String uPswrd;
+        String cUPswrd, uPswrd, fPswrd;
         String vaultName;
-        int start;
+        int start, select;
+        boolean signedIn = false;
         Scanner sc = new Scanner(System.in);
         System.out.println("Welcome to the secure password vault.\nTo sign in, press 1\nTo create an account, press 2");
         start = sc.nextInt();
@@ -29,10 +29,23 @@ public class Main {
             sPswrd = sc.nextLine();
 
             if (checkSignIn(sEmail, sPswrd)) {
-                System.out.println("Sign in successful!");
+                signedIn = true;
+                System.out.println("Sign in successful! Welcome to your vault!");
+                while (signedIn) {
+                    System.out.println("To find a password, press 1. \nTo add a password to your vault, press 2 \nTo exit the vault, press 3");
+                    select = sc.nextInt();
+                    if(select == 1) {
+
+                    } else if(select == 2) {
+
+                    } else if (select == 3) {
+                        break;
+                    }
+                }
             } else {
-                System.out.println("Incorrect email or password. Sign in failed.");
+                System.out.println("Incorrect email or password. Please try again.");
             }
+
         } else if (start == 2) {
             System.out.println("Please enter an email: ");
             email = sc.nextLine();
@@ -41,12 +54,12 @@ public class Main {
             uPswrd = sc.nextLine();
             System.out.println("Please confirm your password");
             cUPswrd = sc.nextLine();
-            if(cUPswrd == uPswrd) {
-                hashPswrd(cUPswrd);
+            if (cUPswrd == uPswrd) {
+                fPswrd = hashPswrd(cUPswrd);
                 System.out.println("Please name your vault");
                 vaultName = sc.nextLine();
 
-                storeCred(email, uPswrd);
+                storeCred(email, fPswrd);
                 createVault(vaultName);
             } else {
                 System.out.println("Passwords did not match! Try again.");
