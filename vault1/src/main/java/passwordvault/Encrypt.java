@@ -31,6 +31,15 @@ public class Encrypt {
             List<File> databaseFiles = getDatabaseFiles(projectDirectory);
 
             for (File f : databaseFiles) {
+                if(f.getName().endsWith(".encrypted")) {
+                    continue;
+                }
+                if (f.getName().equals("users.db")) {
+                    continue;
+                }
+            }
+
+            for (File f : databaseFiles) {
                 byte[] fileBytes = Files.readAllBytes(f.toPath());
                 byte[] encryptedBytes = cipher.doFinal(fileBytes);
 
