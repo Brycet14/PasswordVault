@@ -11,7 +11,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class Main {
     public static void main(String[] args) {
-        String email, sEmail;
+        String email, sEmail, wUsername, website, wPswrd;
         String cUPswrd, uPswrd, fPswrd, sPswrd;
         String vaultName;
         final String path = "/Users/9709796/Documents/Personal Project/PasswordVault";
@@ -43,14 +43,16 @@ public class Main {
                     if (select == 1) {
                         sc.nextLine();
                         System.out.println("Enter the websites name: ");
+                        website = sc.nextLine();
+                        System.out.println("Your username to " + website + " is " + "");
                     } else if (select == 2) {
                         sc.nextLine();
                         System.out.println("Enter the websites name: ");
-                        String website = sc.nextLine();
+                        website = sc.nextLine();
                         System.out.println("Enter your username for the website: ");
-                        String wUsername = sc.nextLine();
+                        wUsername = sc.nextLine();
                         System.out.println("Enter your password for the website: ");
-                        String wPswrd = sc.nextLine();
+                        wPswrd = sc.nextLine();
                     } else if (select == 3) {
                         break;
                     }
@@ -181,12 +183,12 @@ public class Main {
         return vaultName;
     }
 
-    private static void storeCredentials(String website, String username, String pswrd) {
-        try{
-            Class.forName("org.sqlite.JDBC");
-            try(Connection connection = DriverManager.getConnection("jdbc:sqlite:" + getVaultName(sEmail) + ".db")) {
+    // private static void storeCredentials(String website, String username, String pswrd) {
+    //     try{
+    //         Class.forName("org.sqlite.JDBC");
+    //         try(Connection connection = DriverManager.getConnection("jdbc:sqlite:" + getVaultName(sEmail) + ".db")) {
                 
-            }
-        }
-    }
+    //         }
+    //     }
+    // }
 }
