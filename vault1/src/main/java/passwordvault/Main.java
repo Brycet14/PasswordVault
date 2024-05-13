@@ -19,11 +19,12 @@ public class Main {
         boolean signedIn = false;
         Scanner sc = new Scanner(System.in);
         System.out.println(
-                "Welcome to the secure password vault.\nTo sign in, press 1: \nTo create an account, press 2: ");
+                "Welcome to the secure password vault.\nTo sign in, press 1: \nTo create an account, press 2: \nTo exit the program, press 3: ");
         start = sc.nextInt();
 
         // Encrypt.encrypt(path);
         // Decrypt.decrypt("/Users/9709796/Documents/Personal Project/PasswordVault/users.db");
+        while (!signedIn) {
         if (start == 1) {
             System.out.println("Enter your email: ");
             sc.nextLine();
@@ -44,7 +45,7 @@ public class Main {
                         sc.nextLine();
                         System.out.println("Enter the websites name: ");
                         website = sc.nextLine();
-                        System.out.println("Your username to " + website + " is " + "");
+                        Finder.findCredentials(getVaultName(sEmail), website);
                     } else if (select == 2) {
                         sc.nextLine();
                         System.out.println("Enter the websites name: ");
@@ -53,6 +54,7 @@ public class Main {
                         wUsername = sc.nextLine();
                         System.out.println("Enter your password for the website: ");
                         wPswrd = sc.nextLine();
+                        FileWriter.storeUserCred(getVaultName(sEmail), website, wUsername, wPswrd);
                     } else if (select == 3) {
                         break;
                     }
@@ -73,39 +75,20 @@ public class Main {
                 System.out.println("Please name your vault: ");
                 vaultName = sc.nextLine();
 
-                storeUserCred(email, fPswrd, vaultName);
+                FileWriter.storeUsers(email, fPswrd, vaultName);
                 createVault(vaultName);
             } else {
                 System.out.println("Passwords did not match! Try again.");
             }
+        } else if (start == 3) {
+            break;
         }
-        sc.close();
     }
+    sc.close();
+}
 
     private static String hashPswrd(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
-    }
-
-    private static void storeUserCred(String email, String pswrd, String vaultName) {
-        try {
-            Class.forName("org.sqlite.JDBC");
-
-            try (Connection connection = DriverManager.getConnection("jdbc:sqlite:users.db")) {
-                String query = "INSERT INTO users (email, password, vaultName) VALUES (?, ?, ?)";
-                try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                    preparedStatement.setString(1, email);
-                    preparedStatement.setString(2, pswrd);
-                    preparedStatement.setString(3, vaultName);
-                    preparedStatement.executeUpdate();
-                } catch (SQLException e) {
-                    System.err.println("Error storing credentials: " + e.getMessage());
-                }
-            } catch (SQLException e) {
-                System.err.println("Error storing credentials: " + e.getMessage());
-            }
-        } catch (ClassNotFoundException e) {
-            System.err.println("SQLite JDBC Driver not found: " + e.getMessage());
-        }
     }
 
     private static void createVault(String vaultName) {
@@ -182,13 +165,4 @@ public class Main {
         }
         return vaultName;
     }
-
-    // private static void storeCredentials(String website, String username, String pswrd) {
-    //     try{
-    //         Class.forName("org.sqlite.JDBC");
-    //         try(Connection connection = DriverManager.getConnection("jdbc:sqlite:" + getVaultName(sEmail) + ".db")) {
-                
-    //         }
-    //     }
-    // }
 }
