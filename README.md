@@ -9,3 +9,5 @@
 ## Start Screen
 <img src=https://github.com/Brycet14/PasswordVault/blob/main/Images/StartScreen.png>
 
+## Flowchart
+<img src=https://github.com/Brycet14/PasswordVault/blob/main/Images/Diagram.jpeg>
